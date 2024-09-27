@@ -8,18 +8,13 @@ import "fmt"
 // il a perdu.
 func Hangman(s string) {
 	var try int = 10
-	var motcache string
-	for i := 0; i < len(s); i++ {
-		motcache = motcache + "_"
-	}
+	motcache := Creermotcache(s)
 	for try > 0 {
 		fmt.Println(motcache)
 		var lettre string
 		fmt.Print("Entrez une lettre : ")
-		_, err := fmt.Scanf("%s", &lettre)
-		if err != nil {
+		fmt.Scanf("%s", &lettre)
 
-		}
 		var nvmot string
 		var bonneLettre bool = false
 		for i, char := range s {
@@ -46,4 +41,12 @@ func Hangman(s string) {
 		}
 		
 	}
+}
+
+func Creermotcache(s string) string {
+	var motcache string
+	for i := 0; i < len(s); i++ {
+		motcache = motcache + "_"
+	}
+	return motcache
 }
