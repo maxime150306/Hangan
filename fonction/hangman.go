@@ -14,23 +14,11 @@ func Game(s string) {
 	var data Hangman
 	motcache := Creermotcache(s)
 	Try := 10
+
 	for data.Try > 0 {
-		file, err := os.Open("hangman.txt")
-		if err != nil {
-			fmt.Println("Erreur lors de l'ouverture du fichier : ", err)
-			return
-		}
-		defer file.Close()
-		fmt.Println(data.Motcache)
-		scanner := bufio.NewScanner(file)
-		scanner.Split(bufio.ScanLines)
-		fmt.Println(scanner)
-		Lignes := make([]string, 0)
-		CompteurLignes := len(Lignes)
-		Compteur := 0
-		for scanner.Scan() {
-			Lignes = append(Lignes, scanner.Text())
-		}
+		fmt.Println(data.Nvmot)
+		fmt.Print("Entrez une lettre : ")
+		fmt.Scanf("%s", &data.Lettre)
 
 		for i, char := range s {
 			if string(char) == data.Lettre {
@@ -42,30 +30,42 @@ func Game(s string) {
 			motcache = data.Nvmot //met a jour la variable motcache
 		}
 
-		for data.Try > 0 {
-			fmt.Println(data.Nvmot)
-			fmt.Print("Entrez une lettre : ")
-			fmt.Scanf("%s", &data.Lettre)
-			
-			if !data.BonneLettre {
-				data.Try = data.Try - 1
-				data.Compteurlignes = CompteurLignes + 7
-				
-				if data.Compteurlignes > len(Lignes) {
-					
-					for i := 0; i < len(Lignes); i++ {
-						fmt.Println(Lignes[i])
-					}
-					fmt.Println("Mauvaise lettre, il vous reste", Try, "vies")
-					
-					if data.Try == 0 {
-						fmt.Println("Dommage, vous avez perdu !")
-						fmt.Println() // affiche la dernière étape du pendu
-						break
-					}
+		if !data.BonneLettre {
+			data.Try = data.Try - 1
+			data.Compteurlignes = data.Compteurlignes + 7
+
+			if data.Compteurlignes > len(data.Lignes) {
+
+				for i := 0; i < len(data.Lignes); i++ {
+					fmt.Println(data.Lignes[i])
+				}
+				fmt.Println("Mauvaise lettre, il vous reste", Try, "vies")
+
+				if data.Try == 0 {
+					fmt.Println("Dommage, vous avez perdu !")
+					fmt.Println() // affiche la dernière étape du pendu
+					break
+				}
+			}
+			for data.Try > 0 {
+				file, err := os.Open("hangman.txt")
+				if err != nil {
+					fmt.Println("Erreur lors de l'ouverture du fichier : ", err)
+					return
+				}
+				defer file.Close()
+				fmt.Println(data.Motcache)
+				scanner := bufio.NewScanner(file)
+				scanner.Split(bufio.ScanLines)
+				fmt.Println(scanner)
+				Lignes := make([]string, 0)
+				data.Compteurlignes = len(Lignes)
+				Compteur := 0
+				for scanner.Scan() {
+					Lignes = append(Lignes, scanner.Text())
 				}
 
-				for i := 0; i < data.Compteurlignes; i ++{
+				for i := 0; i < data.Compteurlignes; i++ {
 					fmt.Println(Lignes[i])
 					for j := 0; j < 7 && i+j < Compteur; j++ {
 						fmt.Print(Lignes[i+j])
