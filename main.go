@@ -1,7 +1,13 @@
 package main
 
-import hg "hangman/fonction"
+import (
+	"fmt"
+	hg "hangman/fonction"
+	"os"
+)
 
 func main() {
-	hg.Hangman("essaie")
+	hg.Game("essaie")
+	Data,_ := os.ReadFile("hangman.txt")
+	fmt.Println(string(Data))
 }
