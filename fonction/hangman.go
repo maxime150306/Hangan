@@ -83,6 +83,7 @@ func Game() {
 	s := strings.TrimSpace(strings.ToLower(choisirMotaleatoir(mots)))
 	motcache := Creermotcache(s)
 	motcache = revelerlettresaleatoires(motcache, s, 2)
+	var lettrepropose []string
 
 	var data Hangman
 	try := 10
