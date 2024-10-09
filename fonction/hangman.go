@@ -7,6 +7,8 @@ import (
 	"os"
 	"strings"
 	"time"
+	"golang.org/x/text/unicode/norm"
+	"unicode"
 )
 
 // Game est la fonction qui permet de lancer le jeu du pendu.
@@ -42,6 +44,18 @@ func chargermots() []string {
 	return mots
 
 }
+
+func enleverAccents(s string) string {
+	t := norm.NFD.String(s)
+	var result strings.Builder
+	for _, r := range t {
+		if unicode.Is(unicode.Latin, r) {
+			result.WriteRune(r)
+		}
+	}
+	return result.String()
+}
+
 func chargerpendu(nomFichier string) ([]string, error) {// Chargerpendu est la fonction qui permet de charger le jeu du pendu."Hangman.txt" {
 	file, err := os.Open(nomFichier)
 	if err != nil {
@@ -99,10 +113,13 @@ func Game() {
 	for try > 0 {
 		fmt.Println(motcache)
 		fmt.Print("Entrez une lettre : ")
-		fmt.Scanln(&data.Lettre)
+		var input string
+		fmt.Scanln(&input)
+		data.Lettre = strings.TrimSpace(strings.ToLower(enleverAccents(input)))
 
-		//vérification de l'entré de l'utilisateur
-		data.Lettre = strings.TrimSpace(strings.ToLower(data.Lettre))
+		if data.Lettre == "" {
+			continue
+		}
 		if len(data.Lettre) != 1 {
 			if data.Lettre == s {
 				fmt.Println("Bravo vous avez deviné le mot")
@@ -165,7 +182,7 @@ func revelerlettresaleatoires(motCache string, mots string, nombredeLettres int)
 		indice := rand.Intn(len(mots))
 		if !indicesReverses[indice] {
 			indicesReverses[indice] = true
-			motCache = motCache[:indice] + string(mots[indice]) + motCache[indice+1:]
+			motCache = motCache[:indice] + enleverAccents(string(mots[indice])) + motCache[indice+1:]
 		}
 	}
 	return motCache
