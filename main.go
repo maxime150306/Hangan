@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	hg.Game("essaie")
+	hg.Game()
 	
 }
 
