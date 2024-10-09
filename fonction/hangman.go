@@ -128,7 +128,7 @@ func Game() {
 			try--
 			fmt.Println("Mauvaise lettre,il vous reste ", try, " essais")
 			if lignesAffichees < len(lignes) {
-				for i := 0; i < 7 && lignesAffichees < len(lignes); i++ {
+				for i := 0; i < 8 && lignesAffichees < len(lignes); i++ {
 					fmt.Println(lignes[lignesAffichees])
 					lignesAffichees++
 				}
@@ -166,24 +166,3 @@ func revelerlettresaleatoires(motCache string, mots string, nombredeLettres int)
 	}
 	return motCache
 }
-/*func parserFichier(nomFichier string) ([]string, error) {
-	file, err := os.Open("Hangman.txt")
-	if err != nil {
-		return nil,
-			fmt.Errorf("erreur lors de l'ouverture du fichier %s: %w", nomFichier, err)
-	}
-	defer file.Close()
-
-	var lignes []string
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan() {
-		lignes = append(lignes, strings.TrimSpace(scanner.Text())) // Ajouter chaque ligne à la slice
-	}
-
-	if err := scanner.Err(); err != nil {
-		return nil, fmt.Errorf("erreur lors de la lecture du fichier %s: %w", nomFichier, err)
-	}
-
-	return lignes, nil
-}*/
