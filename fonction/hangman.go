@@ -69,14 +69,15 @@ func choisirMotaleatoir(mots []string) string {
 	return mots[rand.Intn(len(mots))]
 }
 
-func contient(s string, c string) bool {
-	for i := 0; i < len(s); i++ {
-		if string(s[i]) == c {
+func contient(liste []string, c string) bool {
+	for _, char := range liste {
+		if c == char {
 			return true
 		}
 	}
 	return false
 }
+
 func Game() {
 	mots := chargermots()
 	s := strings.TrimSpace(strings.ToLower(choisirMotaleatoir(mots)))
@@ -105,10 +106,11 @@ func Game() {
 			fmt.Println("Veuillez entrer une seule lettre")
 			continue
 		}
-		if contient(motcache, data.Lettre) {
-			fmt.Println("veuillez entrer une lettre qui na pas encore ete devinée")
+		if contient(lettrepropose, data.Lettre) {
+			fmt.Println("veuillez entrer une lettre qui na pas déjà été proposé")
 			continue
 		}
+		lettrepropose = append(lettrepropose, data.Lettre)
 
 		data.BonneLettre = false
 		data.Nvmot = ""
