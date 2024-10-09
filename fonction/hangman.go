@@ -103,8 +103,13 @@ func Game() {
 		//vérification de l'entré de l'utilisateur
 		data.Lettre = strings.TrimSpace(strings.ToLower(data.Lettre))
 		if len(data.Lettre) != 1 {
-			fmt.Println("Veuillez entrer une seule lettre")
-			continue
+			if data.Lettre == s {
+				fmt.Println("Bravo vous avez deviné le mot")
+				break
+			} else {
+				fmt.Println("Veuillez entrer une seule lettre")
+				continue
+			}
 		}
 		if contient(lettrepropose, data.Lettre) {
 			fmt.Println("veuillez entrer une lettre qui na pas déjà été proposé")
@@ -143,10 +148,6 @@ func Game() {
 
 		if try == 0 {
 			fmt.Println("Perdu le mot est :", s)
-			break
-		}
-		if data.Lettre == motcache {
-			fmt.Println("Bravo")
 			break
 		}
 	}
