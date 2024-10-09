@@ -107,8 +107,8 @@ func Game() {
 				fmt.Println("Bravo vous avez deviné le mot")
 				break
 			} else {
-				fmt.Println("Veuillez entrer une seule lettre")
-				continue
+				try--
+				fmt.Println("Mauvaise lettre,il vous reste ", try, " essais")
 			}
 		}
 		if contient(lettrepropose, data.Lettre) {
