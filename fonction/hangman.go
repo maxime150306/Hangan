@@ -94,9 +94,9 @@ func contient(liste []string, c string) bool {
 
 func Game() {
 	mots := chargermots()
-	s := strings.TrimSpace(strings.ToLower(choisirMotaleatoir(mots)))
+	s := strings.TrimSpace(strings.ToLower(enleverAccents(choisirMotaleatoir(mots))))
 	motcache := Creermotcache(s)
-	motcache = revelerlettresaleatoires(motcache, s, 2)
+	motcache = revelerlettresaleatoires(motcache, s, len(s)/2-1)
 	var lettrepropose []string
 
 	var data Hangman
