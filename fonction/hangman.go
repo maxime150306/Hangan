@@ -7,8 +7,6 @@ import (
 	"os"
 	"strings"
 	"time"
-	"golang.org/x/text/unicode/norm"
-	"unicode"
 )
 
 // Game est la fonction qui permet de lancer le jeu du pendu.
@@ -46,11 +44,21 @@ func chargermots() []string {
 }
 
 func enleverAccents(s string) string {
-	t := norm.NFD.String(s)
+	remplacements := map[rune]rune{
+		'à': 'a', 'â': 'a', 'ä': 'a',
+		'ç': 'c',
+		'é': 'e', 'è': 'e', 'ê': 'e', 'ë': 'e',
+		'î': 'i', 'ï': 'i',
+		'ô': 'o', 'ö': 'o',
+		'ù': 'u', 'û': 'u', 'ü': 'u',
+	}
+
 	var result strings.Builder
-	for _, r := range t {
-		if unicode.Is(unicode.Latin, r) {
-			result.WriteRune(r)
+	for _, char := range s {
+		if remplacement, found := remplacements[char]; found {
+			result.WriteRune(remplacement)
+		} else {
+			result.WriteRune(char)
 		}
 	}
 	return result.String()
@@ -79,8 +87,27 @@ func chargerpendu(nomFichier string) ([]string, error) {// Chargerpendu est la f
 }
 
 func choisirMotaleatoir(mots []string) string {
+	var mod int
+	var mot string
+	fmt.Print("Entrez 1 pour le mode normal et 2 pour le mode difficile")
+	fmt.Scanln(mod)
 	rand.Seed(timeNow().UnixNano())
-	return mots[rand.Intn(len(mots))]
+	if mod == 1 {
+		for i := 0; i > 10; i++ {
+			mot = mots[rand.Intn(len(mots))]
+			if len(mot) < 6 {
+				i = 11
+			}
+		}
+	} else {
+		for i := 0; i > 10; i++ {
+			mot = mots[rand.Intn(len(mots))]
+			if len(mot) > 6 {
+				i = 11
+			}
+		}
+	}
+	return mot
 }
 
 func contient(liste []string, c string) bool {
