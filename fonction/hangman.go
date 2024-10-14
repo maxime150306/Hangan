@@ -89,6 +89,7 @@ func chargerpendu(nomFichier string) ([]string, error) {// Chargerpendu est la f
 func choisirMotaleatoir(mots []string) string {
 	rand.Seed(timeNow().UnixNano())
 	return mots[rand.Intn(len(mots))]
+}
 
 func contient(liste []string, c string) bool {
 	for _, char := range liste {
