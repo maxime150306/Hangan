@@ -87,28 +87,8 @@ func chargerpendu(nomFichier string) ([]string, error) {// Chargerpendu est la f
 }
 
 func choisirMotaleatoir(mots []string) string {
-	var mod int
-	var mot string
-	fmt.Print("Entrez 1 pour le mode normal et 2 pour le mode difficile")
-	fmt.Scanln(mod)
 	rand.Seed(timeNow().UnixNano())
-	if mod == 1 {
-		for i := 0; i > 10; i++ {
-			mot = mots[rand.Intn(len(mots))]
-			if len(mot) < 6 {
-				i = 11
-			}
-		}
-	} else {
-		for i := 0; i > 10; i++ {
-			mot = mots[rand.Intn(len(mots))]
-			if len(mot) > 6 {
-				i = 11
-			}
-		}
-	}
-	return mot
-}
+	return mots[rand.Intn(len(mots))]
 
 func contient(liste []string, c string) bool {
 	for _, char := range liste {
